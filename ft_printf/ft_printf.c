@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void	put_str(char *str, int *len)
+void	put_string(char *str, int *len)
 {
 	if(!str)
 		str = "(null)";
@@ -16,13 +16,13 @@ void	put_digite(long long int nbr, int base, int *len)
 	if(nbr < 0)
 	{
 		nbr *= -1;
-		*len += write(1, "-", 1);
+		*len = write(1, "-", 1);
 	}
 	if(nbr >= base)
 		put_digite((nbr / base), base, len);
 	*len += write(1, &str[nbr % base], 1);
 }
-void	ft_printf(char	*format, ...)
+void	check_printf(char *format, ...)
 {
 	int	len;
 	va_list ptr;
@@ -35,7 +35,7 @@ void	ft_printf(char	*format, ...)
 		{
 			format++;
 			if(*format == 's')
-				put_str(va_arg(ptr, char *), &len);
+				put_string(va_arg(ptr, char *), &len);
 			else if(*format == 'd')
 				put_digite((long long int)va_arg(ptr, int), 10, &len);
 			else if(*format == 'x')
@@ -47,11 +47,10 @@ void	ft_printf(char	*format, ...)
 	}
 }
 
-
 int	main()
 {
-	ft_printf("%d\n", 7777);
-	ft_printf("%x\n", 77);
-	ft_printf("%s\n","salaheddine");
-       	return(0);	
+	check_printf("%s\n", "Mult string it's working !!");
+	check_printf("%d\n", 59);
+	check_printf("%x\n", 77);
+	return(0);
 }
