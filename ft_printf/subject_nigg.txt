@@ -1,0 +1,1 @@
+build a function ft_printf behv--(printf) from stdio
