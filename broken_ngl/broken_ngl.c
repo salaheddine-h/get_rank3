@@ -53,21 +53,53 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 
 char *get_next_line(int fd)
 {
-	static char	b[BUFFER_SIZE+1] = "";
+	static char	buffer_read[BUFFER_SIZE + 1] = "";
 	char *ret = NULL;
-	char *tmp = ft_strchr(b, '\n');
-	while (!tmp){
-		if (!str_append_str(&ret, b))
+	char *tmp = ft_strchr(buffer_read, '\n');
+
+	while (!tmp)
+    {
+		if (!str_append_str(&ret, buffer_read))
 			return NULL;
-		int read_ret = read(fd, b, BUFFER_SIZE);
+		int read_ret = read(fd, buffer_read, BUFFER_SIZE);
 		if (read_ret = -1)
 			return NULL;
-		b[read_ret] = 0;
+		buffer_read[read_ret] = 0;
 	}
-	if (!str_append_mem(&ret, b, tmp-b+1))
+	if (!str_append_mem(&ret, buffer_read, tmp-buffer_read+1))
 	{
 		free(ret);
 		return NULL;
 	}
 	return ret;
+}
+
+int main(int argc, char **argv)
+{
+    if (argc < 2)
+    {
+        printf("Usage: %s <file>\n", argv[0]);
+        return 1;
+    }
+
+    int fd = open(argv[1], O_RDONLY);
+    if (fd < 0)
+    {
+        perror("Failed to open file");
+        return 1;
+    }
+
+    printf("File opened successfully.\n");
+
+    char *line;
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("Read line: %s\n", line ? line : "No line read");
+
+        free(line);
+    }
+
+    printf("End of file or error.\n");
+    close(fd);
+    return 0;
 }
