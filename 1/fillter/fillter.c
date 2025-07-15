@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
 char	*read_input(void)
@@ -40,9 +41,9 @@ char	*read_input(void)
 
 void	replace(char *str, char *s)
 {
-	int	len = strlen(s);
 	int	i = 0;
 	int	j;
+	int	len = strlen(s);
 
 	while(str[i])
 	{
@@ -68,7 +69,7 @@ int	main(int argc, char **argv)
 	if(!buffer_read)
 		return(1);
 	replace(buffer_read, argv[1]);
-	printf("%s\n ", buffer_read);
+	printf("%s\n", buffer_read);
 	free(buffer_read);
 	return(0);
 }

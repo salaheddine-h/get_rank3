@@ -51,25 +51,6 @@ int str_append_mem(char **s1, char *s2, size_t size2)
     return 1;
 }
 
-//we dont need this 2 functions
-// int	str_append_str(char **s1, char *s2)
-// {
-// 	return str_append_mem(s1, s2, ft_strlen(s2));
-// }
-
-// void	*ft_memmove(void *dest, const void *src, size_t n)
-// {
-// 	if (dest > src)
-// 		return ft_memcpy(dest, src, n);
-// 	else if (dest == src)
-// 		return dest;
-// 	for(size_t i = ft_strlen((char*)src) - 1; i >= 0; i--)
-// 		((char *)dest)[i] = ((char *)src)[i];
-// 	return dest;
-
-// }
-
-
 char *get_next_line(int fd)
 {
     static char buffer[BUFFER_SIZE + 1] = {0};
