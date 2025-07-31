@@ -35,3 +35,4 @@ $> echo 'abcdefaaaabcdeabcabcdabc' | ./filter abc | cat -e
 
 $> echo 'ababcabababc' | ./a.out ababc | cat -e
 *****ab*****$
+

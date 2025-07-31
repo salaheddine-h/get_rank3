@@ -1,15 +1,11 @@
 #ifndef RIP_H
 #define RIP_H
 
-
 #include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
 
-int	check_len1(char *str);
-int	check_len2(char *str);
-size_t	ft_strlen(char *str);
-char	*read_inout(char *str);
-void	replace(char *str, char *s);
+void  print_soltion(char *str);
+void	solve(char *str, int pos, int open, int to_remove, char *temp, int temp_pos);
+int	get_min_remove(char *str);
 
 #endif

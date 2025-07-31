@@ -1,5 +1,3 @@
-#include <fcntl.h>
-#include <stdio.h>
 #include "get_next_line.h"
 
 int main(int argc, char **argv)
@@ -31,13 +29,3 @@ int main(int argc, char **argv)
     close(fd);
     return 0;
 }
-
-//to make it work put this command :
-// gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line.h  main.c -o gnl
-
-// to run it put this command :
-// ./gnl test.txt
-
-//to check leaks put this command :
-// valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./gnl test.txt
-

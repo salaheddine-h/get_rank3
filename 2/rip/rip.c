@@ -1,101 +1,85 @@
 #include "rip.h"
 
-int	check_len1(char *str)
+void	print_solution(char *str)
 {
-	int	i = 0;
-	int	len = 0;
-	while(str[i])
+	for(int i = 0; str[i]; i++)
 	{
-		if(str[i] == ')')
-			len++;
-		i++;
+		write(1, &str[i], 1);
 	}
-	return(len);
+	write(1, "\n", 1);
 }
-int	check_len2(char *str)
+
+void	solve(char *str, int pos, int open, int to_remove, char *temp, int temp_pos)
 {
-	int	i = 0;
-	int	len = 0;
-	while(str[i])
+	if(!str[pos])
+	{
+		if(open == 0 && to_remove == 0)
+		{
+			temp[temp_pos] = '\0';
+			print_solution(temp);
+		}
+		return;
+	}
+
+	char	current = str[pos];
+
+	if(current != '(' && current != ')')
+	{
+		temp[temp_pos] = current;
+		solve(str, pos + 1, open, to_remove, temp, temp_pos + 1);
+		return;
+	}
+
+	if(to_remove > 0)
+	{
+		temp[temp_pos] = '_';
+		solve(str, pos + 1, open, to_remove - 1, temp, temp_pos + 1);
+	}
+
+	if(current == '(')
+	{
+		temp[temp_pos] = '(';
+		solve(str, pos + 1, open + 1, to_remove, temp, temp_pos + 1);
+
+	}
+
+	else if(current == ')')
+	{
+		if(open > 0)
+		{
+			temp[temp_pos] = ')';
+			solve(str, pos + 1, open - 1 , to_remove, temp, temp_pos + 1);
+		}
+	}
+}
+int	get_min_remove(char *str)
+{
+	int	open = 0;
+	int	close = 0;
+
+	for(int i = 0; str[i]; i++)
 	{
 		if(str[i] == '(')
-			len++;
-		i++;
-	}
-	return(len);
-}
-
-size_t	ft_strlen(char *str)
-{
-	size_t	len = 0;
-	while(str[len])
-		len++;
-	return(len);
-}
-
-char	*read_buffer(char *str)
-{
-	int	len = ft_strlen(str);
-	char	*buff;
-	int	i;
-
-	buff = malloc(len + 1);
-	if(!buff)
-	{
-		printf("malloc is failed !!\n");
-		return(NULL);
-	}
-	i = 0;
-	while(str[i])
-	{
-		buff[i] = str[i];
-		i++;
-	}
-	buff[i] = '\0';
-	return(buff);
-}
-
-void	replace(char *str)
-{
-	int	i = 0;
-	int	j;
-
-	while(str[i])
-	{
-		for(j = 0; s[j] && str[i + j] == s[j]; j++);
-		if(j == len)
+			open++;
+		else if(str[i] == ')')
 		{
-			for(j = 0; j < len; j++)
-				str[i + j] = ' ';
-			i += len;
+			if(open > 0)
+				open--;
+			else
+				close++;
 		}
-		else
-			i++;
 	}
+	return(open + close);
 }
-
 int	main(int argc, char **argv)
 {
-	char	*buffer;
-	int	len_q1 = 0;
-	int	len_q2 = 0;
-
-	if(argc != 2 || !argv[1][0])
+	if(argc != 2)
 		return(1);
-	len_q1 = check_len1(argv[1]);
-	len_q2 = check_len2(argv[1]);
-
-	buffer = read_buffer(argv[1]);
-	if(!buffer)
-	{
-		printf("function read_input is failed \n");
-		return(1);
-	}
-	printf("old buffer = %s\n", buffer);
-	replace(buffer);
-	printf("new buffer = %s\n", buffer); 
-	printf("len_q1 = %d\n", len_q1);
-	printf("len_q2 = %d\n", len_q2);
+	int	n = 0;
+	while(argv[1][n])
+		n++;
+	char	temp[n + 1];
+	int	min_remove = get_min_remove(argv[1]);
+	solve(argv[1], 0, 0, min_remove, temp, 0);
 	return(0);
-
 }
