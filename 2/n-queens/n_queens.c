@@ -1,21 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void draw_board(int *board, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (board[i] == j)
-                write(1, "Q ", 2); // Queen position
-            else
-                write(1, ". ", 2); // Empty space
-        }
-        write(1, "\n", 1); // Newline after each row
-    }
-    write(1, "\n", 1); // Extra newline after the board
-}
 
 void print_solution(int *board, int n)
 {
