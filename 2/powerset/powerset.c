@@ -21,12 +21,10 @@ void	find_subset(int *set, int size, int target, int *subset, int subsize, int i
 		}
 		return;
 	}
-	find_subset(set, size, target, subset, subsize,  idx + 1);
 	subset[subsize] = set[idx];
 	find_subset(set, size, target, subset, subsize + 1, idx + 1);
-
+	find_subset(set, size, target, subset, subsize, idx + 1);
 }
-
 int	main(int argc, char **argv)
 {
 	if(argc < 3)
