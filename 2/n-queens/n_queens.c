@@ -1,57 +1,53 @@
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 
-void	print_solution(int *queens, int n)
+void	print_solution(int *queen, int n)
 {
 	for(int i = 0; i < n; i++)
 	{
-		char c = queens[i] + '0';
+		char c = queen[i] + '0';
 		write(1, &c, 1);
 		if(i < n - 1)
 			write(1, " ", 1);
 	}
 	write(1, "\n", 1);
 }
-
-int is_safe(int *queens, int col, int row)
+int	is_safe(int *queen, int col, int row)
 {
 	for(int i = 0; i < col; i++)
 	{
-		if(queens[i] == row)
+		if(queen[i] == row)
 			return(0);
-		if((col - i) == (row > queens[i] ? row - queens[i] : queens[i] - row))
+		if((col - i) == (row > queen[i] ? row - queen[i] : queen[i] - row))
 			return(0);
 	}
 	return(1);
 }
 
-void	solve(int *queens, int col, int n)
+void	solve(int *queen, int col, int n)
 {
 	if(col == n)
 	{
-		print_solution(queens, n);
+		print_solution(queen, n);
 		return;
 	}
-	int row = 0;
-	while(row < n)
+	for(int row = 0; row < n; row++)
 	{
-		if(is_safe(queens, col, row))
+		if(is_safe(queen, col, row))
 		{
-			queens[col] = row;
-			solve(queens, col + 1, n);
+			queen[col] = row;
+			solve(queen, col + 1, n);
 		}
-		row++;
 	}
 }
 int	main(int argc, char **argv)
 {
 	if(argc != 2)
 		return(1);
-	int n = atoi(argv[1]);
-	if(n <= 0)
+	int len = atoi(argv[1]);
+	if(len <= 0)
 		return(1);
-	int queens[n];
-	solve(queens, 0, n);
+	int queens[len];
+	solve(queens, 0, len);
 	return(0);
 }

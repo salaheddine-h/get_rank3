@@ -1,6 +1,6 @@
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void	find_subset(int *set, int size, int target, int *subset, int subsize, int idx)
 {
@@ -21,9 +21,9 @@ void	find_subset(int *set, int size, int target, int *subset, int subsize, int i
 		}
 		return;
 	}
+	find_subset(set, size, target, subset, subsize, idx + 1);
 	subset[subsize] = set[idx];
 	find_subset(set, size, target, subset, subsize + 1, idx + 1);
-	find_subset(set, size, target, subset, subsize, idx + 1);
 }
 int	main(int argc, char **argv)
 {
@@ -31,15 +31,15 @@ int	main(int argc, char **argv)
 		return(1);
 	int target = atoi(argv[1]);
 	int size = argc - 2;
-	int *subset = malloc(sizeof(int) * size);
 	int *set = malloc(sizeof(int) * size);
+	int *subset = malloc(sizeof(int) * size);
 	if(!set || !subset)
 	{
 		free(set);
 		free(subset);
 		return(1);
 	}
-	for(int i = 0; i < size; i++)
+	for(int i = 0; i < size ; i++)
 		set[i] = atoi(argv[i + 2]);
 	find_subset(set, size, target, subset, 0, 0);
 	free(set);
